@@ -11,19 +11,19 @@ if (!(test-path -path $outPutPath\img)) {new-item -path $outPutPath\img -itemtyp
 while($page -ne "")
 {
     $response=Invoke-RestMethod -Uri $page
-    $response.metadata
     $data=$response.data|Sort-Object -Property name -Descending
    
     Foreach ($i in $data)
     {
         #save images locally if you
-        Invoke-WebRequest $i.image_url -OutFile "$outPutPath/img/$($i.name.Replace(":"," ")).png"
+        #Invoke-WebRequest $i.image_url -OutFile "$outPutPath/img/$($i.name.Replace(":"," ")).png"
     
         #output item html template
         $aa="<a href='$($i.url)' title='$($i.name)'><img src='$($i.image_url)' width='140' alt='$($i.name),$($i.description)'/></a>"
         $cont+=$aa+$nl     
-        $bb="<a href='$($i.url)' title='$($i.name)'><img src='$outPutPath/img/$($i.name.Replace(":"," ")).png' width='140' alt='$($i.name),$($i.description)'/></a>"
-        $cont_bb+=$bb+$nl     
+        #$bb="<a href='$($i.url)' title='$($i.name)'><img src='$outPutPath/img/$($i.name.Replace(":"," ").Replace(" ","%20")).png' width='140' alt='$($i.name),$($i.description)'/></a>"
+        $bb="<a href='$($i.url)' title='$($i.name)'><img src='downloads/img/$($i.name.Replace(":"," ").Replace(" ","%20")).png' width='140' alt='$($i.name),$($i.description)'/></a>"
+        $cont_bb+=$bb+$nl             
     }
     if($response.metadata.next_page_url -eq $null)
     {
